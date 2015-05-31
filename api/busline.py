@@ -2,8 +2,8 @@
 from api.models.busline import Busline
 from api.models.company import Company
 from api.models.terminal import Terminal
+from api.exception import BusinemeAPIConnectionError
 from django.conf import settings
-from exception.api import ApiException
 import requests
 import json
 
@@ -43,7 +43,7 @@ class BuslineAPI():
             busline_json = json.loads(busline_json)
             return self._busline_list(busline_json)
         except Exception, e:
-            raise ApiException(str(e))
+            raise BusinemeAPIConnectionError(str(e))
 
     def _company_json_to_object(self, company_json):
         company = Company()

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from api.busline import BuslineAPI
 from api.models import *
-from exception.api import ApiException
+from api.exception import BusinemeAPIConnectionError
 from django.test import SimpleTestCase
 import json
 
@@ -31,7 +31,7 @@ class testBusilineAPI(SimpleTestCase):
     def test_all(self):
         from requests import *
         from requests.sessions import *
-        with self.assertRaises(ApiException):
+        with self.assertRaises(BusinemeAPIConnectionError):
             self.busline.all()
         ret = json.loads(all())
         self.assertIsNotNone(self.busline._busline_list(ret))
