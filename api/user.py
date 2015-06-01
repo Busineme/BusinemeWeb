@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from api.models.user import User
+from api.models import User
 from api.exception import BusinemeAPIConnectionError
 from django.conf import settings
 from requests.exceptions import ConnectionError
