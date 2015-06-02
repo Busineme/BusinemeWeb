@@ -21,16 +21,14 @@ class testBusilineAPI(SimpleTestCase):
         self.busline = BuslineAPI()
 
     def test_models(self):
-        instance = busline.Busline()
+        instance = Busline()
         self.assertIsNotNone(instance)
-        instance = terminal.Terminal()
+        instance = Terminal()
         self.assertIsNotNone(instance)
-        instance = company.Company()
+        instance = Company()
         self.assertIsNotNone(instance)
 
     def test_all(self):
-        from requests import *
-        from requests.sessions import *
         with self.assertRaises(BusinemeAPIConnectionError):
             self.busline.all()
         ret = json.loads(all())

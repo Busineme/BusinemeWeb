@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from api.models import Busline, Company, Terminal
+from api.models import Busline, Terminal, Company
 from api.exception import BusinemeAPIConnectionError
 from django.conf import settings
 import requests
