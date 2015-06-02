@@ -16,9 +16,21 @@ class UserAPI(object):
     def create(self, user):
         assert type(user) == type(User())
         url = settings.API_URL + 'user/'
-        user_data = json.dumps(user, default=lambda user: user.__dict__)
         headers = {'Content-type': 'application/json'}
-        return requests.post(url, data=user_data, headers=headers)
+        return requests.post(url, data=self.__object_to_json(user),
+                             headers=headers)
+
+    def update(self, id, name=None, email=None, password=None):
+        url = settings.API_URL + 'user/'
+        user = User(id=id, first_name=name, email=email)
+        user.set_password(password)
+        headers = {'Content-type': 'application/json'}
+        return requests.post(url, data=self.__object_to_json(user),
+                             headers=headers)
+
+    def __object_to_json(self, user):
+        user_data = json.dumps(user, default=lambda user: user.__dict__)
+        return user_data
 
     def __json_to_object(self, user_json):
         user = User()

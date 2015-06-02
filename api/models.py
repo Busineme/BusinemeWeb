@@ -29,11 +29,14 @@ class Terminal():
 
 class User(object):
 
-    def __init__(self):
+    def __init__(self, id=None, first_name=None, email=None, password=None):
         self.date_joined = None
-        self.first_name = None
-        self.email = None
+        self.first_name = first_name
+        self.email = email
         self.id = None
         self.pontuation = 0
         self.resource_uri = None
         self.username = None
+
+    def set_password(self, password):
+        self.password = password
