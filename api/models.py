@@ -31,9 +31,9 @@ class User(object):
 
     def __init__(self):
         self.date_joined = None
-        self.first_name = ''
-        self.email = ''
-        self.id = 0
+        self.first_name = None
+        self.email = None
+        self.id = None
         self.pontuation = 0
-        self.resource_uri = ''
-        self.username = ''
+        self.resource_uri = None
+        self.username = None
