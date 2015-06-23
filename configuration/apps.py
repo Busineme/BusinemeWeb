@@ -20,13 +20,13 @@ DJANGO_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'lettuce.django',
 )
 
 # Django plugins apps
 PLUGINS_APPS = (
     'django_nose',
     'django_jenkins',
+    'lettuce.django',
 )
 
 # Busine.me application apps
