@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Dependencies
+#===============
+#- pandoc
+#- pdflatex
+#- pylint
+#- git
+
 function build_pdf
 {
 	git checkout $1
@@ -38,7 +45,7 @@ echo "\documentclass{report}
 \scshape
 \normalfont
 \vspace{0.1\textheight}
-\vbox{\normalfont{UNB - UNIVERSIDADE DE BRASILIA\\CAMPUS GAMA}}
+\vbox{\normalfont{UNB - UNIVERSIDADE DE BRASILIA\\CAMPUS~GAMA}}
 \vspace{0.1\textheight}
 
 
