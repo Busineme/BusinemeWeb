@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+# Dependence
+#=============
+#
+#- gource
+#- sed
+#- sort
+#- ffmpeg
+
 OUTFILE="gource.mp4"
 
 set -x
@@ -25,4 +33,4 @@ sort -n -o $combined_log $combined_log
 time gource -o - --time-scale 4.0 $combined_log | ffmpeg -y -r 60 -f image2pipe -vcodec ppm -i - -vcodec libx264 -preset ultrafast -pix_fmt yuv420p -crf 1 -threads 0 -bf 0 $OUTFILE
 
 # cleanup the log
-rm $combined_log
+rm -fv $combined_log
