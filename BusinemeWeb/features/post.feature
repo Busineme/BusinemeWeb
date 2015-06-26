@@ -14,6 +14,6 @@ Feature: Make a post.
 		And I type "205" in the field "busline"
 		And I press "Pesquisar"
 		And I follow "/perfil_de_linha/0.205/"  
-		Then I should see "Informações"      
+		Then I should see "0.205"      
 
 		

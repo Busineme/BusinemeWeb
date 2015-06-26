@@ -63,9 +63,10 @@ def advanced_search_busline_page(request):
 
 def busline_profile(request, line_number):
     """Return the profle page from a line number when requested."""
-    busline = Busline.filter_by_line_equals(line_number)
+    busline = Busline.get_by_line_equals(line_number)
     posts = Post.objects.filter(busline__id=busline.id)
     posts = sorted(posts, key=lambda post: (post.time), reverse=True)
     return render_to_response("busline_profile.html",
-                              {'busline': busline, 'posts': posts},
+                              {'busline': busline,
+                                  'posts': posts, },
                               context_instance=RequestContext(request))

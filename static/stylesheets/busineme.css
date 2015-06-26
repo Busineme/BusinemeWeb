@@ -7,3 +7,31 @@ color: #ff6963;
 .busineme_green{
 color: #2cc990;
 }
+
+.busineme_orange{
+color: #fcb941;
+}
+
+.busineme_white{
+color: #edede4;
+}
+
+.busineme_yellow{
+color: #eee657;
+}
+
+.busineme_blue{
+color: #2c82c9;
+}
+
+.busineme_light_blue{
+color: #80d5df;
+}
+
+.busineme_brown{
+color: #94846e;
+}
+ 
+.button_size{
+    height:3em;
+}

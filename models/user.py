@@ -50,7 +50,7 @@ class User(DjangoUser):
         else:
             return False
 
-    def validade_user_password(self, userpassword):
+    def validate_user_password(self, userpassword):
         """Validate password not blank."""
         if len(userpassword) == 0:
             return False

@@ -4,7 +4,6 @@ import sys
 
 
 if __name__ == "__main__":
-    sys.stderr.write('Removing *.pyc\n')
     os.system('find . -type f -name "*.pyc" -exec rm -rf "{}" \;')
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "configuration.settings")
 

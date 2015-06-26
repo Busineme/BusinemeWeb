@@ -42,7 +42,7 @@ class BuslineAPI(object):
         url += '&description__contains=' + description + '&limit=0'
         return self._get_filtered_list(url)
 
-    def filter_by_line_equals(self, line_number):
+    def get_by_line_equals(self, line_number):
         url = settings.API_URL + 'busline/?line_number__exact=' + \
             line_number + '&limit=0'
         return self._get_filtered_list(url)[0]
@@ -73,7 +73,6 @@ class BuslineAPI(object):
             buslines = requests.get(url)
             return self._busline_list(buslines.json())
         except Exception, e:
-            print e
             raise ApiException(str(e))
 
     def _company_json_to_object(self, company_json):

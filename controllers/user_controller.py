@@ -52,7 +52,7 @@ def register_user(request):
                 "Verifique o e-mail inserido. Ele deve conter os caracteres \
                 '@' e '.' (ponto).",
                 "register_user_page.html", request)
-        if not user.validade_user_password(request.POST["password"]):
+        if not user.validate_user_password(request.POST["password"]):
             response = modal_message(
                 "Erro :(",
                 "Campo de senha vazio.",
@@ -61,7 +61,7 @@ def register_user(request):
                 "register_user_page.html", request)
 
         if user.validate_email() and user.validate_unique_email() and \
-                user.validade_user_password(request.POST["password"]):
+                user.validate_user_password(request.POST["password"]):
             user.save()
 
     except IntegrityError:
@@ -140,8 +140,6 @@ def user_account_page(request):
     """Load the account managment page, that lets the user change his data."""
     if request.user.is_authenticated():
         user = request.user
-    else:
-        user = None
     return render_to_response('account_page.html', {'user': user},
                               context_instance=RequestContext(request))
 
@@ -154,8 +152,6 @@ def change_password_page(request):
     """
     if request.user.is_authenticated():
         user = request.user
-    else:
-        user = None
     return render_to_response('change_password_page.html', {'user': user},
                               context_instance=RequestContext(request))
 
@@ -165,8 +161,6 @@ def change_password_action(request):
     """Change user password checking for his current password."""
     if request.user.is_authenticated():
         user = request.user
-    else:
-        user = None
 
     old_password = request.POST["old_password"]
     new_password1 = request.POST["new_password1"]
@@ -211,8 +205,6 @@ def deactivate_account_page(request):
     """Load user account deactivation page."""
     if request.user.is_authenticated():
         user = request.user
-    else:
-        user = None
     return render_to_response('deactivate_account_page.html', {'user': user},
                               context_instance=RequestContext(request))
 
@@ -257,6 +249,6 @@ def change_password(request):
     """Call method to user password depending on the request method."""
     if request.method == 'GET':
         response = change_password_page(request)
-    elif request.method == 'POST':
+    if request.method == 'POST':
         response = change_password_action(request)
     return response

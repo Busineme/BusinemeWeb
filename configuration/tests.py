@@ -4,7 +4,7 @@ TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 NOSE_ARGS = [
     '--with-coverage',
-    '--cover-package=models,controllers',
+    '--cover-package=controllers',
     '--cover-erase',
     # '--exe',
     # '--with-doctest',
@@ -12,10 +12,10 @@ NOSE_ARGS = [
     # '--logging-clear-handlers',
     # '-d', # Add detail to error output
     # '--cover-html',
-    # '-s', # print stdout
+    '-s',  # print stdout
     # '--cover-tests', # test tests
     '--nologcapture',
     '--verbosity=2',
-    '--cover-package=BusinemeWeb, api',
+    '--cover-package=BusinemeWeb',
     # '--cover-min-percentage=80',
 ]

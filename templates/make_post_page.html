@@ -1,170 +1,154 @@
 {% extends 'base.html' %}
 {% block title %}
-    Busine.me | Resultados
+  Busine.me | Resultados
 {% endblock %}
 {% block content %}
-<style>
-      html, body, #map_canvas {
-        height: 100%;
-        margin: 0px;
-        padding: 0px
-      }
-    </style>
-
-<div>
+  <style>
+  .html, body, #map_canvas {
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  }
+  </style>
+  <div>
     <h1 class= "text-center" value="titulo_h1">Realize uma Businada!</h1>
-</div>
-
-<div class="row">
-    <div class="panel small-10 medium-4 large-4 small-centered columns">
-        <form action="/realizar_post/" method="POST" id="post_form">
+  </div>
+  <div class="row">
+    <div class="panel small-10 medium-4 large-4 small-centered columns radius">
+      <form action="/realizar_post/" method="POST" id="post_form">
         {% csrf_token %}
-            <a href="/perfil_de_linha/{{line_number}}/" title="Clique aqui para ver todos os posts sobre a linha"><h2>{{line_number}}</h2></a>
-            <br>
-
-            <h2>Trânsito</h2>
-            <p class="left">Livre</p>
-            <p class="right">Parado</p>
-            <br>
-            <div class="range-slider round" data-slider data-options="start: 0; 
-                                        end: 5; display_selector: #numero_transito; ">
-                <span class="range-slider-handle" role="slider" tabindex="0"></span> 
-                <span class="range-slider-active-segment"></span> 
-                <input type="hidden" value='numero_transito' name='traffic'>
-            </div>
-
-            <h2>Lotação</h2>
-            <p class="left">Vazio</p>
-            <p class="right">Lotado</p>
-            <br>
-            <div class="range-slider round" data-slider data-options="start: 0;
-                                         end: 5; display_selector: #numero_lotacao; ">
-                <span class="range-slider-handle" role="slider" tabindex="0"></span> 
-                <span class="range-slider-active-segment"></span>  
-                <input type="hidden" value="numero_lotacao" name='capacity'>
-            </div>
-
+        <a href="/perfil_de_linha/{{line_number}}/" title="Clique aqui para ver todos os posts sobre a linha"><h2>{{line_number}}</h2></a>
+        <br>
+        <h2>Trânsito</h2>
+        <p class="left">Livre</p>
+        <p class="right">Parado</p>
+        <br>
+        <div class="range-slider round" data-slider data-options="start: 0;
+          end: 5; display_selector: #numero_transito; ">
+          <span class="range-slider-handle" role="slider" tabindex="0"></span>
+          <span class="range-slider-active-segment"></span>
+          <input type="hidden" value='numero_transito' name='traffic'>
+        </div>
+        <h2>Lotação</h2>
+        <p class="left">Vazio</p>
+        <p class="right">Lotado</p>
+        <br>
+        <div class="range-slider round" data-slider data-options="start: 0;
+          end: 5; display_selector: #numero_lotacao; ">
+          <span class="range-slider-handle" role="slider" tabindex="0"></span>
+          <span class="range-slider-active-segment"></span>
+          <input type="hidden" value="numero_lotacao" name='capacity'>
+        </div>
+        <div>
+          Indo para: <br>
+          {% for terminal in terminals %}
             <label>
-                <textarea name="description" placeholder="Conte-nos sobre sua viagem" cols="10" rows="10"></textarea>
+              <input type="radio" name="terminal" value="{{terminal.id}}" required>
+              {{terminal.description}}
             </label>
-            <input type="hidden" name="line_number" value="{{line_number}}">
-            <input type="hidden" name="codigo_longitude" id="id_longitude" value="">
-            <input type="hidden" name="codigo_latitude" id="id_latitude" value="">
-            <input type="hidden" name="review" id="id_review" value="">
-              
-            <div id="loading" class="small-12 columns"></div>
-
-            {% if last_post %}
-            <input type="submit" class="default button expand" data-reveal-id="modal_review" name='Businar' value='Businar!'>
-            {% else %}
-            <input type="submit" class="default button expand" name='Businar' value='Businar!'>
-            {% endif %}
-        </form>
+          {% endfor %}
+        </div>
+        <label>
+          <textarea name="description" placeholder="Conte-nos sobre sua viagem" cols="10" rows="10"></textarea>
+        </label>
+        <input type="hidden" name="line_number" value="{{line_number}}">
+        <input type="hidden" name="codigo_longitude" id="id_longitude" value="">
+        <input type="hidden" name="codigo_latitude" id="id_latitude" value="">
+        <input type="hidden" name="review" id="id_review" value="">
+        
+        <div id="loading" class="small-12 columns"></div>
+        {% if last_post %}
+          <input type="submit" class="default button expand round button_size" data-reveal-id="modal_review" name='Businar' value='Businar!'>
+        {% else %}
+          <input type="submit" class="default button expand button_size" name='Businar' value='Businar!'>
+        {% endif %}
+      </form>
     </div>
-</div>
-
-<div id="modal_review" class="small reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+  </div>
+  <div id="modal_review" class="small reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
     <h2>Como vc julga esse post?</h2>
     <div class="panel callout">
-        <h2>{{last_post.comment}}</h2>
-        {% if last_post.user.pontuation > 0 %}
+      <h2>{{last_post.comment}}</h2>
+      {% if last_post.user.pontuation > 0 %}
         <h3><span class="busineme_green">Pontuação do Usuario: {{last_post.user.pontuation}}</span></h2>
         {% elif last_post.user.pontuation < 0 %}
         <h3><span class="busineme_red">Pontuação do Usuario (ruim): {{last_post.user.pontuation}}</span></h2>
-
-        {% endif %}
-        <p class="lead">{{last_post.date}} {{last_post.time}}</p>
-        <p>Lotação:{{last_post.capacity}} Trânsito: {{last_post.traffic}}</p>
-        <center> <div class="flex-video">
-          <div id="map_canvas" style="width:290px;height:200px;"></div>
-        </div></center>
+      {% endif %}
+      <p class="lead">{{last_post.date}} {{last_post.time}}</p>
+      <p>Lotação:{{last_post.capacity}} Trânsito: {{last_post.traffic}}</p>
+      <center> <div class="flex-video">
+        <div id="map_canvas" style="width:290px;height:200px;"></div>
+      </div></center>
     </div>
-      <ul class="button-group even-3">
-        <li><a class="button success" id="good_review">Bom</a></li>
-        <li><a class="button secondary" id="whatever_review">Indiferente</a></li>
-        <li><a class="button alert" id="bad_review">Ruim</a></li>
-      </ul> 
-</div>
-
-
-
-
-
-
+    <ul class="button-group round even-3">
+      <li><a class="button alert fa fa-frown-o" id="bad_review"></a></li>
+      <li><a class="button secondary fa fa-meh-o" id="whatever_review"></a></li>
+      <li><a class="button success fa fa-smile-o" id="good_review"></a></li>
+    </ul>
+  </div>
 {% endblock %}
 {% block "scripts" %}
-    {% if error_lead %}
-        <script>
-            $('#modal_error').foundation('reveal', 'open');
-        </script>
-    {% endif %}
-    <script type="text/javascript">
-
-      if (Modernizr.geolocation) {
-       navigator.geolocation.getCurrentPosition(function(posicao){
-              $('#loading').html('Posição encontrada!');
-              $("[name='Businar']").attr('disabled', false);
-               $("#id_longitude").val(posicao.coords.longitude);
-               $("#id_latitude").val(posicao.coords.latitude);  
-           });
-        }
-
-        function make_review(value){
-            $('#modal_review').foundation('reveal', 'close');
-            $('#id_review').val(value);
-            $('#post_form').submit();
-        }
-        $('#good_review').click(function(){
-            make_review(1)
-            });
-        $('#whatever_review').click(function(){
-            make_review(0)
-            });
-        $('#bad_review').click(function(){
-            make_review(-1)
-            });    
+  {% if error_lead %}
+    <script>
+    $('#modal_error').foundation('reveal', 'open');
     </script>
-
-
-       <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwmUpp3KwXz_wY2EDYzjzgTFtHNOOVOzM" >
-    </script>
-    
-    <script type="text/javascript">
-      $(document).ready(function initialize() {
-        $('#loading').html('<img src="/static/images/ajax-loader.gif" </img> Obtendo posição');
-        $("[name='Businar']").attr('disabled', true);
-        var myLatlng = new google.maps.LatLng({{last_post.latitude}},{{last_post.longitude}});
-        var mapOptions = {
-          center: myLatlng,
-          zoom: 15,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
-        google.maps.event.addDomListener(window, 'load', initialize);        
-        var marker = new google.maps.Marker({
-        position: myLatlng,
-        map: map,
-        title: 'Ultima postagem'
+  {% endif %}
+  <script type="text/javascript">
+  if (Modernizr.geolocation) {
+  navigator.geolocation.getCurrentPosition(function(posicao){
+  $('#loading').html('Posição encontrada!');
+  $("[name='Businar']").attr('disabled', false);
+  $("#id_longitude").val(posicao.coords.longitude);
+  $("#id_latitude").val(posicao.coords.latitude);
   });
-         marker.setMap(map);
-
-         google.maps.event.addDomListener(window, 'load', initialize);
-         google.maps.event.addDomListener(window, "resize", function() {
-         var center = myLatlng;
-         google.maps.event.trigger(map, "resize");
-         map.setCenter(center); 
-        });
-      })
-
-
-
-    </script>
-    
-
+  }
+  function make_review(value){
+  $('#modal_review').foundation('reveal', 'close');
+  $('#id_review').val(value);
+  $('#post_form').submit();
+  }
+  $('#good_review').click(function(){
+  make_review(1)
+  });
+  $('#whatever_review').click(function(){
+  make_review(0)
+  });
+  $('#bad_review').click(function(){
+  make_review(-1)
+  });
+  </script>
+  <script type="text/javascript"
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwmUpp3KwXz_wY2EDYzjzgTFtHNOOVOzM" >
+  </script>
+  
+  <script type="text/javascript">
+  $(document).ready(function initialize() {
+  $('#loading').html('<img src="/static/images/ajax-loader.gif" </img> Obtendo posição');
+  $("[name='Businar']").attr('disabled', true);
+  var myLatlng = new google.maps.LatLng({{last_post.latitude}},{{last_post.longitude}});
+  var mapOptions = {
+  center: myLatlng,
+  zoom: 15,
+  mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+  var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+  google.maps.event.addDomListener(window, 'load', initialize);
+  var marker = new google.maps.Marker({
+  position: myLatlng,
+  map: map,
+  title: 'Ultima postagem'
+  });
+  marker.setMap(map);
+  google.maps.event.addDomListener(window, 'load', initialize);
+  google.maps.event.addDomListener(window, "resize", function() {
+  var center = myLatlng;
+  google.maps.event.trigger(map, "resize");
+  map.setCenter(center);
+  });
+  })
+  </script>
+  
 {% endblock %}
-
 {% block "modal_error_lead" %} {{error_lead}}{% endblock %}
-{% block "modal_error_message" %} {{modal_message}} {% endblock %} 
-{% block "modal_alert_title" %} {{alert_title}} {% endblock %} 
- 
+{% block "modal_error_message" %} {{modal_message}} {% endblock %}
+{% block "modal_alert_title" %} {{alert_title}} {% endblock %}

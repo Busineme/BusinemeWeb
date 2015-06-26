@@ -3,28 +3,25 @@
     Busine.me | Busca Avançada
 {% endblock %}
 {% block content %}
-
-
- <div class="row"> 
-    <div class="small-10 medium-4 large-4 small-centered columns">
-        <form action="/resultado/busca_avancada/" method='GET'>
-            <input type = "text" name="busline_advanced" placeholder="Numero da Linha">
-            <input type = "text" name="description" placeholder="Via por onde passa">
-            <!-- <input type = "text" name="terminal__description" placeholder="Terminal"> -->
-            <input type = "submit" class="default button expand" name="procurar" value="Procurar"> 
-        </form>
+    <div class="row">
+        <br><h1 class="text-center" value="Resultado"> Pesquisa Avançada</h1><br><br>
+        <div class="small-10 medium-4 large-4 small-centered columns">
+            <form action="/resultado/busca_avancada/" method='GET'>
+                <input class="radius" type="text" name="busline_advanced" placeholder="Numero da Linha">
+                <input class="radius" type="text" name="description" placeholder="Via por onde passa">
+                <!-- <input type = "text" name="terminal__description" placeholder="Terminal"> -->
+                <input type="submit" class="default button expand round" name="procurar" value="Procurar">
+            </form>
+        </div>
     </div>
- </div>
 {% endblock %}
-
 {% block "scripts" %}
-{% if error_lead %}
-<script>
-    $('#modal_error').foundation('reveal', 'open');
-</script>
-{% endif %}
+    {% if error_lead %}
+        <script>
+        $('#modal_error').foundation('reveal', 'open');
+        </script>
+    {% endif %}
 {% endblock %}
-
 {% block "mensagem1" %} {{error_lead}}{% endblock %}
-{% block "mensagem2" %} {{modal_message}} {% endblock %} 
-{% block "mensagem3" %} {{alert_title}} {% endblock %} 
+{% block "mensagem2" %} {{modal_message}} {% endblock %}
+{% block "mensagem3" %} {{alert_title}} {% endblock %}

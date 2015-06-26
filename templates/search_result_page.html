@@ -4,7 +4,7 @@
 {% endblock %}
 {% block content %}
     <div class="row">
-        <h1 class="text-center" value="Resultado"> Resultado</h1>
+        <br><h1 class="text-center" value="Resultado"> Resultado</h1>
     </div>
     <div class = "row">
         <h4 class="text-center" >Foram encontradas '{{ count_busline }}' linhas</h4>
@@ -26,13 +26,13 @@
                         <div class="row collapse prefix-round">
                             {% for busline in buslines %}
                                 <form action="/realizar_post/" method="GET">
-                                    <div class="panel">
+                                    <div class="panel radius">
                                         <h3> <a href="/perfil_de_linha/{{busline.line_number}}/"  name="busca_avancada"
-                                        class="left" value="{{busline.line_numeber}}" >{{ busline.line_number }}  </a></h3><br>
+                                        class="left" value="{{busline.line_number}}" >{{ busline.line_number }}  </a></h3><br>
                                         <p>Rota: {{ busline.description }}
                                             <br>
                                             {% if user.is_authenticated %}
-                                                <input type="submit" class="button right round tiny" name='Businar' value="Businar!">
+                                                <input type="submit" class="button right round tiny" name='Businar!' value="Businar!">
                                             {% endif %}
                                         </p>
                                         

@@ -7,40 +7,40 @@
             <li class="toggle-topbar menu-icon"><a href="#"><span>Painel</span></a></li>
         </ul>
         <section class="top-bar-section">
-        {% if user.is_authenticated %}
-	        <ul class="left">
-	            <li><a href="/">Terminal</a></li>
-	            <li><a href="#">Busine</a></li>
-	            <li><a href="#">Favoritos</a></li>
-			</ul>
-		{% endif %}
-			<ul class="right">	
-				<li class="has-form">
-                 <form action="/buscar_linha/" method="GET">
-                  {% csrf_token %}
-    				  <div class="row collapse">
-    				    <div class="large-8 small-9 medium-6 columns">
-    				      <input type="text" name="busline" placeholder="Buscar Linhas">
-    				    </div>
-    				    <div class="large-4 small-3 medium-6 columns">
-    				      <input type="submit" name="pesquisar" class="success button expand" value="Pesquisar">
-    				    </div>
-    				  </div>
+                <ul class="left">
+            {% if user.is_authenticated %}
+                    <li><a href="/fav_page/"><span class="fa fa-star busineme_yellow"></span> Favoritos</a></li>
+
+            {% endif %}
+                    <li><a href="/sobre/">Sobre</a></li>
+                </ul>
+            <ul class="right">
+                <li class="has-form">
+                    <form action="/buscar_linha/" method="GET">
+                        {% csrf_token %}
+                        <div class="row collapse">
+                            <div class="large-8 small-9 medium-6 columns">
+                                <input type="text" name="busline" placeholder="Buscar Linhas">
+                            </div>
+                            <div class="large-4 small-3 medium-6 columns">
+                                <input type="submit" name="pesquisar" class="success button expand" value="Pesquisar">
+                            </div>
+                        </div>
                     </form>
-			 	</li>
-		{% if user.is_authenticated %}
-			 	<li class="has-dropdown">
-	                <a href="#">Painel</a>
-	                <ul class="dropdown">
-	                    <li><a href="/perfil/">Perfil</a></li>
-	                    <li><a href="/sair/">Sair</a></li>
-                	</ul>
-            	</li>
-		{% else %}
-			<li><a href="/login/">Login</a></li>
-		{% endif %}
-			</ul>
-			<!---->
-        </section>	
+                </li>
+                {% if user.is_authenticated %}
+                    <li class="has-dropdown">
+                        <a href="#">Painel</a>
+                        <ul class="dropdown">
+                            <li><a href="/perfil/">Perfil</a></li>
+                            <li><a href="/sair/">Sair</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li><a href="/login/" name='login'>Login</a></li>
+                {% endif %}
+            </ul>
+            <!---->
+        </section>
     </nav>
 </div>

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}
+    Busine.me | Sobre o Busine.me
+{% endblock %}
+{% block content %}
+    <div class="row">
+        {% load staticfiles %}
+        <img class="login-logo" src="{% static 'images/busineme-logo.png' %}" alt="Logo">
+    </div>
+    <div class="row">
+        <div class="small-12 medium-6 large-6 columns">
+            <h2>O que é o Busine.me?</h2>
+            <p class="text-justify">Verificando o atual tempo de espera em paradas de ônibus, e dada a inacurácia do horário de algumas, se não todas, linhas de ônibus do DF, o webapp Busineme vem com o objetivo de ajudar o usuário do transporte público a maximizar seu tempo de espera e conhecimento dos ônibus que estão por vir. Este surgiu partindo da premissa de que a colaboração popular é a melhor maneira de ajudar o povo a conhecer e melhorar os assuntos públicos.</p>
+            <p class="text-justify">A ideia do aplicativo é muito simples, porém, muito eficaz. Uma pessoa pode se cadastrar no sistema e, ao pegar um ônibus, ela realiza um check-in. Nesta estapa a pessoa entra com alguns dados relativos à condução em que está, como, por exemplo, parada em que pegou o ônibus, lotação, trânsito. Outra pessoa pode procurar por uma das linhas e receber essas informações e, assim, se preparar para pegar o ônibus desejado.</p>
+        </div>
+        <div class="small-12 medium-6 large-6 columns">
+            <h2>E como funciona?</h2>
+
+            <ol>
+                <li>O usuário verfica a aplicação antes de se dirigir ao ponto de ônibus.</li>
+                <li>Procura pela linha de ônibus desejada</li>
+                <li>Verifica os feedbacks dados por usuários da mesma linha de ônibus e se programa de acordo com elas.</li>
+                <li>Quando entrar no ônibus, realiza um check-in</li>
+                <li>Outras pessoas podem se organizar melhor...</li>
+            </ol>
+            
+        </div>
+    </div>
+    <div class="row">
+        <div class="small-12 columns">
+            <hr>
+            <h3>O que são dados abertos?</h3>
+            <p class="text-justify">O Busine.me utiliza dados abertos disponibilizados pelo DFTRANS. Segundo a definição da Open Knowledge Foundation, em suma, dados são abertos quando qualquer pessoa pode livremente usá-los, reutilizá-los e redistribuí-los, estando sujeito a, no máximo, a exigência de creditar a sua autoria e compartilhar pela mesma licença</p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block "scripts" %}
+    {% if error_lead %}
+        <script>
+            $('#modal_error').foundation('reveal', 'open');
+        </script>
+    {% endif %}
+
+{% endblock %}
+
+
+
+
+{% block "modal_error_lead" %} {{error_lead}}{% endblock %}
+{% block "modal_error_message" %} {{modal_message}} {% endblock %} 
+{% block "modal_alert_title" %} {{alert_title}} {% endblock %}

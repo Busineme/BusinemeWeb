@@ -4,20 +4,27 @@
 {% endblock %}
 {% block content %}
     <div class="row">
-        <h1 class="text-center" value="Resultado"> Informações</h1>
+        <br><h1 class="text-center" value="Resultado">{{ busline.line_number }}</h1><br>
     </div>
     <div class="row">
         <div class="small-12 large-12 columns">
             <div class="row collapse prefix-round">
                 <form action="/realizar_post/" method="GET">
                     <div class="panel">
-                        <h3 class="left" value="Resultado"> {{ busline.line_number }}</h3><br><br>
-                        <p>Rota: {{ busline.description }}</p>
+                        {% if user.is_authenticated %}
+                            {% if Favorite.is_favorite %}
+                                <span class="right"><a href="/fav/{{busline.line_number}}/" value='Favoritar' name='Favoritar' class="fa fa-star fa-3x busineme_orange"></a></span>
+                            {% else %}
+                                <span class="right"><a href="/fav/{{busline.line_number}}/" class="fa fa-star-o fa-3x busineme_orange"></a></span>
+                            {% endif %}
+                        {% endif %}
+                        <h3 class="left" value="Resultado">Informações</h3><br><br>
+                        <p class="fa fa-bus" > Rota: {{ busline.description }}</p>
                         <p>{{ busline.via }}</p>
                         <p>Percurso: {{ busline.route_size }} KM</p>
-                        <p>Tarifa: R${{ busline.fee }}</p>
+                        <p class="fa fa-money"> Tarifa: R${{ busline.fee }}</p><br>
                         {% if user.is_authenticated %}
-                            <input type="submit" class="button round" name='Businar' value="Businar!">
+                            <input type="submit" class="button round button_size" name='Businar' value="Businar!">
                         {% endif %}
                         <input type="hidden" name="line_number" value="{{busline.line_number}}">
                         <input type="hidden" name="busline_id" value="{{busline.id}}">
@@ -31,6 +38,7 @@
                                 <h3> <a href"#" name="post-details"
                                 class="left" value="@{{ post.user.username }}" >@{{ post.user.username }}  </a></h3><br>
                                 <p>
+                                <h4>Sentido: {{post.terminal}}</h4>
                                     <h4>Trânsito:</h4>
                                     <p class="left">Livre</p>
                                     <p class="right">Parado</p>
@@ -44,7 +52,7 @@
                                     <small class="right">{{ post.time }}</small>
                                 </p>
                             </div>
-                          
+                            
                             <div id="modalPostDetails{{ post.id }}" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
                                 <a class="close-reveal-modal" aria-label="Close">&#215;</a>
                                 <h1 id="modalTitle">@{{ post.user.username }}</h1>
@@ -64,8 +72,10 @@
                                 {% else %}
                                     <p class="left">Sem comentário. :(</p><br>
                                 {% endif %}
-                                <div id="map_canvas" style="width:290px;height:200px;"></div>
-                                <div>{{post.latitude}}</div>
+                                <!-- <center> <div class="flex-video" style="width:290px;height:200px;">
+                                    <div id="map_canvas" style="width:290px;height:200px;"></div>
+                                </div></center>
+                                <div>{{post.latitude}}</div> -->
                                 <p class="right">{{ post.time }}</p>
                             </div>
                         {% endfor %}
@@ -80,40 +90,35 @@
             <script>
             $('#modal-post-details').foundation('reveal', 'open');
             </script>
-    <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwmUpp3KwXz_wY2EDYzjzgTFtHNOOVOzM" >
-    </script>
-    
-    <script type="text/javascript">
-      $(document).ready(function initialize() {
-        var myLatlng = new google.maps.LatLng({{post.latitude}},{{post.longitude}});
-        var mapOptions = {
-          center: myLatlng,
-          zoom: 15,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
-        google.maps.event.addDomListener(window, 'load', initialize);        
-        var marker = new google.maps.Marker({
-        position: myLatlng,
-        map: map,
-        title: 'Ultima postagem'
-  });
-         marker.setMap(map);
-
-         google.maps.event.addDomListener(window, 'load', initialize);
-         google.maps.event.addDomListener(window, "resize", function() {
-         var center = myLatlng;
-         google.maps.event.trigger(map, "resize");
-         map.setCenter(center); 
-        });
-      })
-
-
-    
-    </script>
-
-
+            <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwmUpp3KwXz_wY2EDYzjzgTFtHNOOVOzM" >
+            </script>
+            
+            <script type="text/javascript">
+            $(document).ready(function initialize() {
+            var myLatlng = new google.maps.LatLng({{post.latitude}},{{post.longitude}});
+            var mapOptions = {
+            center: myLatlng,
+            zoom: 15,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+            google.maps.event.addDomListener(window, 'load', initialize);
+            var marker = new google.maps.Marker({
+            position: myLatlng,
+            map: map,
+            title: 'Ultima postagem'
+            });
+            marker.setMap(map);
+            google.maps.event.addDomListener(window, 'load', initialize);
+            google.maps.event.addDomListener(window, "resize", function() {
+            var center = myLatlng;
+            google.maps.event.trigger(map, "resize");
+            map.setCenter(center);
+            });
+            })
+            
+            </script>
         {% endblock %}
         {% block "modal_error_lead" %} {{error_lead}}{% endblock %}
         {% block "modal_error_message" %} {{modal_message}} {% endblock %}

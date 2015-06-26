@@ -1,28 +1,24 @@
-
 {% extends 'base.html' %}
 {% block title %}
-	Busine.me | Perfil
+    Busine.me | Perfil
 {% endblock %}
-
- {% block content %}
- <div class="small-10 medium-4 large-4 small-centered columns">
-     <form action="/alterar_dados/" method="POST">{% csrf_token %}  <!--instead of #, include the url to the method for change the user data -->
-     	<span class="label big">Nome</span>
-     	<input type="text" name="name" value="{{user.first_name}}"required> 
-
-    	<span class="label big">Email</span>
-    	<input type="text" name="email" value="{{user.email}}" required>
-       <!--  <div class="row"> -->
-       <button class="postfix">Salvar Alterações</button>
+{% block content %}
+    <div class="small-10 medium-4 large-4 small-centered columns">
+        <br><h1 class="text-center">Seu Perfil</h1><br>
+        <form action="/alterar_dados/" method="POST">{% csrf_token %}  <!--instead of #, include the url to the method for change the user data -->
+        <span class="label big radius">Nome</span>
+        <input class="radius" type="text" name="name" value="{{user.first_name}}"required>
+        <span class="label big radius">Email</span>
+        <input class="radius" type="text" name="email" value="{{user.email}}" required>
+        <!--  <div class="row"> -->
+        <button class="round postfix">Salvar Alterações</button>
         <!-- </div> -->
-    </form> 
-         <div class="row">
-            <a href="/alterar_senha/">Alterar senha</a>
-        </div>
-        <div class="row">
-            <a href="/desativar_perfil/">Desativar Conta</a>
-        </div>
+    </form>
+    <div class="row">
+        <a href="/alterar_senha/">Alterar senha</a>
+    </div>
+    <div class="row">
+        <a href="/desativar_perfil/">Desativar Conta</a>
+    </div>
 </div>
-
-
 {% endblock %}

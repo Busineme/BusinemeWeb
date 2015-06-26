@@ -32,4 +32,12 @@ urlpatterns = patterns(
         post_controller.make_post),
     url(r'^perfil_de_linha/(?P<line_number>[0-9]+\.[0-9]+)/$',
         'controllers.busline_controller.busline_profile'),
+    url(r'^fav_page/',
+        'controllers.favorite_controller.favorite_busline_page'),
+    url(r'^fav/(?P<line_number>[0-9]+\.[0-9]+)',
+        'controllers.favorite_controller.favorite_busline'),
+    url(r'^un_fav/(?P<line_number>[0-9]+\.[0-9]+)',
+        'controllers.favorite_controller.unfavorite_busline'),
+    url(r'^sobre/',
+        'controllers.app.about_page'),
 )

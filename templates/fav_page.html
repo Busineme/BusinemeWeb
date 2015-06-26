@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block title %}
+    Busine.me | Favoritos
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="small-12 large-12 columns">
+            <div class="row collapse prefix-round">
+                <br><h1 class="busineme_brown text-center" value='Linhas Favoritas'>Linhas Favoritas</h1><br><br>
+                <div class="panel radius">
+                    {% if favorites %}
+                        <ul class="accordion" data-accordion>
+                            {% for favorite in favorites %}
+                                <li class="accordion-navigation">
+                                    <a href="#busline{{forloop.counter}}"><h2><span class="busineme_blue">{{favorite.busline.line_number}}</span></h2>
+                                </a>
+                                <div id="busline{{forloop.counter}}" class="content" >
+                                    <div class="row">
+                                        <a class="right" href="/un_fav/{{favorite.busline.line_number}}"><span class="fa fa-star busineme_red fa-4x"></span></a>
+                                        <form action="/realizar_post/" method="GET">
+                                            <input class="right" type="hidden" name="line_number" value="{{favorite.busline.line_number}}">
+                                            <input type="hidden" name="busline_id" value="{{favorite.busline.id}}">
+                                            <input  type="submit" class="button radius button_size" name='Businar' value="Businar!">
+                                            {% for post in favorite.busline.posts %}
+                                                <div href="#" data-reveal-id="modalPostDetails{{ post.id }}" class="panel">
+                                                    <h3> <a href"#" name="post-details"
+                                                    class="left" value="@{{ post.user.username }}" >@{{ post.user.username }}  </a></h3><br>
+                                                    <p>
+                                                        <h4>Trânsito:</h4>
+                                                        <p class="left">Livre</p>
+                                                        <p class="right">Parado</p>
+                                                        <br>
+                                                        <div class="progress large-12 success round"> <span class="meter" style="width: {% widthratio post.traffic 1 20 %}%"></span> </div>
+                                                        <h4>Lotação:</h4>
+                                                        <p class="left">Vazio</p>
+                                                        <p class="right">Lotado</p>
+                                                        <br>
+                                                        <div class="progress large-12 success round"> <span class="meter" style="width: {% widthratio post.capacity 1 20 %}%"></span> </div>
+                                                        <small class="right">{{ post.time }}</small>
+                                                    </p>
+                                                </div>
+                                                <div id="modalPostDetails{{ post.id }}" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+                                                    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+                                                    <h1 id="modalTitle">@{{ post.user.username }}</h1>
+                                                    <h3>Trânsito:</h3>
+                                                    <p class="left">Livre</p>
+                                                    <p class="right">Parado</p>
+                                                    <br>
+                                                    <div class="progress large-12 success round"> <span class="meter" style="width: {% widthratio post.traffic 1 20 %}%"></span> </div>
+                                                    <h3>Lotação:</h3>
+                                                    <p class="left">Vazio</p>
+                                                    <p class="right">Lotado</p>
+                                                    <br>
+                                                    <div class="progress large-12 success round"> <span class="meter" style="width: {% widthratio post.capacity 1 20 %}%"></span> </div>
+                                                    <h3>Comentário</h3>
+                                                    {% if post.comment %}
+                                                        <p class="left">{{ post.comment }}</p>
+                                                    {% else %}
+                                                        <p class="left">Sem comentário. :(</p><br>
+                                                    {% endif %}
+                                                    <!-- <center> <div class="flex-video" style="width:290px;height:200px;">
+                                                        <div id="map_canvas" style="width:290px;height:200px;"></div>
+                                                    </div></center>
+                                                    <div>{{post.latitude}}</div> -->
+                                                    <p class="right">{{ post.time }}</p>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </form>
+                                </div>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <h4> Não há nenhuma linha favoritada. :(</h4>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block "scripts" %}
+    {% if error_lead %}
+        <script>
+        $('#modal_error').foundation('reveal', 'open');
+        </script>
+    {% endif %}
+{% endblock %}
+{% block "modal_error_lead" %} {{error_lead}}{% endblock %}
+{% block "modal_error_message" %} {{modal_message}} {% endblock %}
+{% block "modal_alert_title" %} {{alert_title}} {% endblock %}

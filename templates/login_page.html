@@ -14,14 +14,14 @@
         <div class="small-10 medium-4 large-4 small-centered columns">
             <form action="/login/" method="POST">
             {% csrf_token %}
-                <input type="text"  name="username"  placeholder="Usuário" required>
-                <input type="password" name="password" placeholder="Senha" required>
+                <input type="text" class="radius" name="username"  placeholder="Usuário" required>
+                <input type="password" class="radius" name="password" placeholder="Senha" required>
                 <div class="row">
                     <div class="small-6 medium-6 large-6 columns">
-                        <a href="/cadastro/" class="button postfix success">Cadastre-se!</a>
+                        <a href="/cadastro/" name='cadastre' value='cadastre' class="button round expand success button_size">Cadastre-se!</a>
                     </div>
                     <div class="small-6 medium-6 large-6 columns">
-                        <input type="submit" value="Entrar" name="Entrar" class="button postfix">
+                        <input type="submit" value="entrar" class="button round expand button_size">
                     </div>
                 </div>
                 <a href="#"><p class="text-right">Esqueceu a senha?</p></a>

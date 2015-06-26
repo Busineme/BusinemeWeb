@@ -1,21 +1,28 @@
 # -*- coding: utf-8 -*-
 """ docstring for package Busline """
-from django.db import models
+from django.db import models as django_models
 from api.busline import BuslineAPI
 from exception.api import ApiException
+import models
 
 
-class Busline(models.Model):
+class Busline(django_models.Model):
 
     """Busline model."""
 
-    line_number = models.CharField(max_length=5, unique=True)
-    description = models.CharField(max_length=255)
-    via = models.CharField(max_length=255)
-    route_size = models.FloatField()  # unit: kilometers
-    fee = models.DecimalField(decimal_places=2, max_digits=4)  # unit: BRL (R$)
-    company = models.ForeignKey('Company', null=True)
-    terminals = models.ManyToManyField('Terminal')
+    def get_posts(self):
+        return models.Post.objects.filter(
+            busline=self).order_by("-date", "-time")
+
+    line_number = django_models.CharField(max_length=5, unique=True)
+    description = django_models.CharField(max_length=255)
+    via = django_models.CharField(max_length=255)
+    route_size = django_models.FloatField()  # unit: kilometers
+    fee = django_models.DecimalField(
+        decimal_places=2, max_digits=4)  # unit: BRL (R$)
+    company = django_models.ForeignKey('Company', null=True)
+    terminals = django_models.ManyToManyField('Terminal')
+    posts = property(get_posts)
 
     def __unicode__(self):
         """Return line number and via."""
@@ -88,10 +95,10 @@ class Busline(models.Model):
         return objects
 
     @classmethod
-    def filter_by_line_equals(cls, line_number):
+    def get_by_line_equals(cls, line_number):
         api = BuslineAPI()
-        # try:
-        busline = api.filter_by_line_equals(line_number)
-        # except:
-        #     busline = cls.objects.filter(line_number__exact=line_number)
+        try:
+            busline = api.get_by_line_equals(line_number)
+        except:
+            busline = cls.objects.get(line_number=line_number)
         return busline

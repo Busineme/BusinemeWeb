@@ -13,11 +13,11 @@
     <div class="row">
         <div class="small-10 medium-4 large-4 small-centered columns">
             <form action="/cadastrar/usuario/" method="POST">{% csrf_token %}
-                <input type="text" name="name" placeholder="Nome" required>
-                <input type="text" name="email" placeholder="Email" required>
-                <input type="text" name="username" placeholder="Nome de Usuario" required>
-                <input type="password" name="password" placeholder="Senha" required>
-                <button class="postfix">Enviar</button>
+                <input type="text" class="radius" name="name" placeholder="Nome" required>
+                <input type="text" class="radius" name="email" placeholder="Email" required>
+                <input type="text" class="radius" name="username" placeholder="Nome de Usuario" required>
+                <input type="password" class="radius" name="password" placeholder="Senha" required>
+                <button class="round postfix" value='enviar' >Enviar</button>
                 </div>
             </form>
         </div>
